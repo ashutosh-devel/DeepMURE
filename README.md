@@ -7,10 +7,10 @@ SpeckleFormer is a hierarchical U-Net architecture designed for the removal of s
 - **Multi-Scale Spatial Learning**: Utilizes Spatial Token Blocks (STB) with varying kernel sizes and dilated convolutions to capture features across different scales.
 - **Frequency-Domain Gating**: Employs Frequency Token Blocks (FTB) that use Fast Fourier Transforms (FFT) and smooth gain estimation to filter noise in the spectral domain.
 - **Adaptive Feature Fusion**: A Channel Attention Block (CAB) using a Q-K-V formulation dynamically fuses spatial and frequency representations.
-- **Residual Refinement**: Incorporates a Residual Feed-Forward Network (RFFN) and a specialized shallow branch (TPM) to ensure high-fidelity reconstruction.
+- **Residual Refinement**: Incorporates a Residual Feed-Forward Network (RFFN) and a specialized shallow Target Preservation Module (TPM) branch to ensure high-fidelity reconstruction.
 - **Model Scalability**: Provides three variants to balance performance and computational cost:
   - `SpeckleFormer_Small` (~1.0M params)
-  - `SpeckleFormer_Medium` (~7.3M params) - *Recommended*
+  - `SpeckleFormer_Medium` (~7.3M params) - *Recommended and used in paper*
   - `SpeckleFormer_Large` (~12.0M params)
 
 ## 🛠️ Installation
@@ -33,11 +33,16 @@ pip install -r requirements.txt # If provided, otherwise install prerequisites m
 
 ## 📖 Usage
 
-### Training
-To train the model, use `train.py`. You can configure the dataset paths, number of looks, and model hyperparameters within the script.
+### Evaluation of the cost/Demo script
+To train the model, use `estimation_demo.py`. You can configure the dataset paths, number of looks, and model hyperparameters within the script.
 
 ```bash
-python train.py
+python estimation_demo.py
+```
+
+To run with oracle mode, 1 looks and custom batchsizes:
+```bash
+python estimation_demo.py --mode deepmure  --img_h 256 --img_w 256 --arch speckleforemer_s1hybrid --looks 1  --batch_size 2 --val_batch_size 2
 ```
 
 ### Evaluation (Inference)
@@ -62,15 +67,15 @@ The SpeckleFormer architecture follows a hierarchical U-Net structure:
 4. **Reconstruction**: Final output is a combination of the decoder's reconstruction and a shallow-path projection (TPM).
 
 ## 📊 Results
-(Add your results table, PSNR/SSIM metrics, and qualitative comparisons here)
+Will be added to this section soon...
 
 ## 📜 Citation
 If you find this work useful in your research, please cite:
 ```bibtex
 @article{speckleformer2026,
   title={SpeckleFormer: Hierarchical Transformer-based Speckle Denoising for SAR Images},
-  author={Your Name and Co-authors},
-  journal={Your Journal/Conference},
+  author={Ashutosh Gupta, Tanish Yelgoe, Chandra Sekhar Seelamantula, Nitant Dube, Shanmuganathan Raman},
+  journal={IEEE Transactions on Image Processing, 2026},
   year={2026}
 }
 ```
